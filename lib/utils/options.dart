@@ -132,6 +132,7 @@ class HtmlToolbarOptions {
     this.customToolbarButtons = const [],
     this.customToolbarInsertionIndices = const [],
     this.defaultToolbarButtons = const [
+      OtherButtons(),
       StyleButtons(),
       FontSettingButtons(fontSizeUnit: false),
       FontButtons(clearAll: false),

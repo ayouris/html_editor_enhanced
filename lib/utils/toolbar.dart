@@ -173,22 +173,7 @@ class OtherButtons extends Toolbar {
 
   List<Icon> getIcons1() {
     var icons = <Icon>[];
-    if (fullscreen)
-      icons.add(Icon(Icons.fullscreen, color: AppThemeConfig().iconPrimary));
-    if (codeview)
-      icons.add(Icon(Icons.code, color: AppThemeConfig().iconPrimary));
     if (undo) icons.add(Icon(Icons.undo, color: AppThemeConfig().iconPrimary));
-    if (redo) icons.add(Icon(Icons.redo, color: AppThemeConfig().iconPrimary));
-    if (help)
-      icons.add(Icon(Icons.help_outline, color: AppThemeConfig().iconPrimary));
-    return icons;
-  }
-
-  List<Icon> getIcons2() {
-    var icons = <Icon>[];
-    if (copy) icons.add(Icon(Icons.copy, color: AppThemeConfig().iconPrimary));
-    if (paste)
-      icons.add(Icon(Icons.paste, color: AppThemeConfig().iconPrimary));
     return icons;
   }
 }

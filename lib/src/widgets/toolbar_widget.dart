@@ -1,7 +1,6 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:html_editor_enhanced/utils/utils.dart';
 import 'package:nawat_mobile/core/theme/app_theme.dart';
@@ -321,7 +320,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
           child: Opacity(
             opacity: _enabled ? 1 : 0.5,
             child: Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.only(left: 5.0, right: 5),
               child: Wrap(
                 runSpacing: widget.htmlToolbarOptions.gridViewVerticalSpacing,
                 spacing: widget.htmlToolbarOptions.gridViewHorizontalSpacing,
@@ -339,7 +338,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
           child: Opacity(
             opacity: _enabled ? 1 : 0.5,
             child: Container(
-              height: widget.htmlToolbarOptions.toolbarItemHeight + 15,
+              height: widget.htmlToolbarOptions.toolbarItemHeight,
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: CustomScrollView(
@@ -458,241 +457,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
   List<Widget> _buildChildren() {
     var toolbarChildren = <Widget>[];
     for (var t in widget.htmlToolbarOptions.defaultToolbarButtons) {
-      if (t is StyleButtons && t.style) {
-        toolbarChildren.add(Container(
-          padding: const EdgeInsets.only(left: 8.0),
-          height: widget.htmlToolbarOptions.toolbarItemHeight,
-          decoration: !widget.htmlToolbarOptions.renderBorder
-              ? null
-              : widget.htmlToolbarOptions.dropdownBoxDecoration ??
-                  BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      border: Border.all(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withOpacity(0.12))),
-          child: CustomDropdownButtonHideUnderline(
-            child: CustomDropdownButton<String>(
-              elevation: widget.htmlToolbarOptions.dropdownElevation,
-              icon: widget.htmlToolbarOptions.dropdownIcon,
-              iconEnabledColor: widget.htmlToolbarOptions.dropdownIconColor,
-              iconSize: widget.htmlToolbarOptions.dropdownIconSize,
-              itemHeight: widget.htmlToolbarOptions.dropdownItemHeight,
-              focusColor: widget.htmlToolbarOptions.dropdownFocusColor,
-              menuDirection: widget.htmlToolbarOptions.dropdownMenuDirection ??
-                  (widget.htmlToolbarOptions.toolbarPosition ==
-                          ToolbarPosition.belowEditor
-                      ? DropdownMenuDirection.up
-                      : DropdownMenuDirection.down),
-              menuMaxHeight: widget.htmlToolbarOptions.dropdownMenuMaxHeight ??
-                  MediaQuery.of(context).size.height / 3,
-              style: widget.htmlToolbarOptions.textStyle,
-              items: [
-                CustomDropdownMenuItem(
-                    value: 'p',
-                    child: PointerInterceptor(
-                        child: Text(
-                      'Normal',
-                      style: TextStyle(color: AppThemeConfig().iconPrimary),
-                    ))),
-                CustomDropdownMenuItem(
-                    value: 'blockquote',
-                    child: PointerInterceptor(
-                      child: Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  left: BorderSide(
-                                      color: Colors.grey, width: 3.0))),
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text('Quote',
-                              style: TextStyle(
-                                  fontFamily: 'times',
-                                  color: AppThemeConfig().iconPrimary))),
-                    )),
-                CustomDropdownMenuItem(
-                    value: 'pre',
-                    child: PointerInterceptor(
-                      child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey),
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text('Code',
-                              style: TextStyle(
-                                  fontFamily: 'courier',
-                                  color: AppThemeConfig().iconPrimary))),
-                    )),
-                CustomDropdownMenuItem(
-                  value: 'h1',
-                  child: PointerInterceptor(
-                      child: Text('Header 1',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 32,
-                              color: AppThemeConfig().iconPrimary))),
-                ),
-                CustomDropdownMenuItem(
-                  value: 'h2',
-                  child: PointerInterceptor(
-                      child: Text('Header 2',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: AppThemeConfig().iconPrimary))),
-                ),
-                CustomDropdownMenuItem(
-                  value: 'h3',
-                  child: PointerInterceptor(
-                      child: Text('Header 3',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: AppThemeConfig().iconPrimary))),
-                ),
-                CustomDropdownMenuItem(
-                  value: 'h4',
-                  child: PointerInterceptor(
-                      child: Text('Header 4',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: AppThemeConfig().iconPrimary))),
-                ),
-                CustomDropdownMenuItem(
-                  value: 'h5',
-                  child: PointerInterceptor(
-                      child: Text('Header 5',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                              color: AppThemeConfig().iconPrimary))),
-                ),
-                CustomDropdownMenuItem(
-                  value: 'h6',
-                  child: PointerInterceptor(
-                      child: Text('Header 6',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 11,
-                              color: AppThemeConfig().iconPrimary))),
-                ),
-              ],
-              value: _fontSelectedItem,
-              onChanged: (String? changed) async {
-                void updateSelectedItem(dynamic changed) {
-                  if (changed is String) {
-                    setState(mounted, this.setState, () {
-                      _fontSelectedItem = changed;
-                    });
-                  }
-                }
-
-                if (changed != null) {
-                  var proceed =
-                      await widget.htmlToolbarOptions.onDropdownChanged?.call(
-                              DropdownType.style,
-                              changed,
-                              updateSelectedItem) ??
-                          true;
-                  if (proceed) {
-                    widget.controller
-                        .execCommand('formatBlock', argument: changed);
-                    updateSelectedItem(changed);
-                  }
-                }
-              },
-            ),
-          ),
-        ));
-      }
       if (t is FontSettingButtons) {
-        if (t.fontName) {
-          toolbarChildren.add(Container(
-            padding: const EdgeInsets.only(left: 8.0),
-            height: widget.htmlToolbarOptions.toolbarItemHeight,
-            decoration: !widget.htmlToolbarOptions.renderBorder
-                ? null
-                : widget.htmlToolbarOptions.dropdownBoxDecoration ??
-                    BoxDecoration(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        border: Border.all(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withOpacity(0.12))),
-            child: CustomDropdownButtonHideUnderline(
-              child: CustomDropdownButton<String>(
-                elevation: widget.htmlToolbarOptions.dropdownElevation,
-                icon: widget.htmlToolbarOptions.dropdownIcon,
-                iconEnabledColor: widget.htmlToolbarOptions.dropdownIconColor,
-                iconSize: widget.htmlToolbarOptions.dropdownIconSize,
-                itemHeight: widget.htmlToolbarOptions.dropdownItemHeight,
-                focusColor: widget.htmlToolbarOptions.dropdownFocusColor,
-                menuDirection:
-                    widget.htmlToolbarOptions.dropdownMenuDirection ??
-                        (widget.htmlToolbarOptions.toolbarPosition ==
-                                ToolbarPosition.belowEditor
-                            ? DropdownMenuDirection.up
-                            : DropdownMenuDirection.down),
-                menuMaxHeight:
-                    widget.htmlToolbarOptions.dropdownMenuMaxHeight ??
-                        MediaQuery.of(context).size.height / 3,
-                style: widget.htmlToolbarOptions.textStyle,
-                items: [
-                  CustomDropdownMenuItem(
-                    value: 'Courier New',
-                    child: PointerInterceptor(
-                        child: Text('Courier New',
-                            style: TextStyle(
-                                fontFamily: 'Courier',
-                                color: AppThemeConfig().iconPrimary))),
-                  ),
-                  CustomDropdownMenuItem(
-                    value: 'sans-serif',
-                    child: PointerInterceptor(
-                        child: Text('Sans Serif',
-                            style: TextStyle(
-                                fontFamily: 'sans-serif',
-                                color: AppThemeConfig().iconPrimary))),
-                  ),
-                  CustomDropdownMenuItem(
-                    value: 'Times New Roman',
-                    child: PointerInterceptor(
-                        child: Text('Times New Roman',
-                            style: TextStyle(
-                                fontFamily: 'Times',
-                                color: AppThemeConfig().iconPrimary))),
-                  ),
-                ],
-                value: _fontNameSelectedItem,
-                onChanged: (String? changed) async {
-                  void updateSelectedItem(dynamic changed) async {
-                    if (changed is String) {
-                      setState(mounted, this.setState, () {
-                        _fontNameSelectedItem = changed;
-                      });
-                    }
-                  }
-
-                  if (changed != null) {
-                    var proceed =
-                        await widget.htmlToolbarOptions.onDropdownChanged?.call(
-                                DropdownType.fontName,
-                                changed,
-                                updateSelectedItem) ??
-                            true;
-                    if (proceed) {
-                      widget.controller
-                          .execCommand('fontName', argument: changed);
-                      updateSelectedItem(changed);
-                    }
-                  }
-                },
-              ),
-            ),
-          ));
-        }
         if (t.fontSize) {
           toolbarChildren.add(Container(
             padding: const EdgeInsets.only(left: 8.0),
@@ -1984,53 +1749,6 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
             },
             isSelected: _miscSelected,
             children: t.getIcons1(),
-          ));
-        }
-        if (t.copy || t.paste) {
-          toolbarChildren.add(ToggleButtons(
-            constraints: BoxConstraints.tightFor(
-              width: widget.htmlToolbarOptions.toolbarItemHeight - 2,
-              height: widget.htmlToolbarOptions.toolbarItemHeight - 2,
-            ),
-            color: widget.htmlToolbarOptions.buttonColor,
-            selectedColor: widget.htmlToolbarOptions.buttonSelectedColor,
-            fillColor: widget.htmlToolbarOptions.buttonFillColor,
-            focusColor: widget.htmlToolbarOptions.buttonFocusColor,
-            highlightColor: widget.htmlToolbarOptions.buttonHighlightColor,
-            hoverColor: widget.htmlToolbarOptions.buttonHoverColor,
-            splashColor: widget.htmlToolbarOptions.buttonSplashColor,
-            selectedBorderColor:
-                widget.htmlToolbarOptions.buttonSelectedBorderColor,
-            borderColor: widget.htmlToolbarOptions.buttonBorderColor,
-            borderRadius: widget.htmlToolbarOptions.buttonBorderRadius,
-            borderWidth: widget.htmlToolbarOptions.buttonBorderWidth,
-            renderBorder: widget.htmlToolbarOptions.renderBorder,
-            textStyle: widget.htmlToolbarOptions.textStyle,
-            onPressed: (int index) async {
-              if (t.getIcons2()[index].icon == Icons.copy) {
-                var proceed = await widget.htmlToolbarOptions.onButtonPressed
-                        ?.call(ButtonType.copy, null, null) ??
-                    true;
-                if (proceed) {
-                  var data = await widget.controller.getText();
-                  await Clipboard.setData(ClipboardData(text: data));
-                }
-              }
-              if (t.getIcons2()[index].icon == Icons.paste) {
-                var proceed = await widget.htmlToolbarOptions.onButtonPressed
-                        ?.call(ButtonType.paste, null, null) ??
-                    true;
-                if (proceed) {
-                  var data = await Clipboard.getData(Clipboard.kTextPlain);
-                  if (data != null) {
-                    var text = data.text!;
-                    widget.controller.insertHtml(text);
-                  }
-                }
-              }
-            },
-            isSelected: List<bool>.filled(t.getIcons2().length, false),
-            children: t.getIcons2(),
           ));
         }
       }
