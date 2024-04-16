@@ -121,20 +121,6 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
           decoration: widget.otherOptions.decoration,
           child: Column(
             children: [
-              if (widget.htmlToolbarOptions != null)
-                Container(
-                  decoration: ShapeDecoration(
-                    color: AppThemeConfig().resptionBack,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1, color: Color(0xFFE8EAEC)),
-                    ),
-                  ),
-                  child: ToolbarWidget(
-                      key: toolbarKey,
-                      controller: widget.controller,
-                      htmlToolbarOptions: widget.htmlToolbarOptions!,
-                      callbacks: widget.callbacks),
-                ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 8),
@@ -556,6 +542,20 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                   ),
                 ),
               ),
+              if (widget.htmlToolbarOptions != null)
+                Container(
+                  decoration: ShapeDecoration(
+                    color: AppThemeConfig().resptionBack,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFFE8EAEC)),
+                    ),
+                  ),
+                  child: ToolbarWidget(
+                      key: toolbarKey,
+                      controller: widget.controller,
+                      htmlToolbarOptions: widget.htmlToolbarOptions!,
+                      callbacks: widget.callbacks),
+                ),
             ],
           ),
         ),
