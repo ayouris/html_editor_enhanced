@@ -139,7 +139,7 @@ class HtmlToolbarOptions {
       ColorButtons(),
       ListButtons(listStyles: false),
       ParagraphButtons(
-          textDirection: false, lineHeight: false, caseConverter: false),
+          textDirection: true, lineHeight: false, caseConverter: false),
     ],
     this.otherFileExtensions,
     this.imageExtensions,

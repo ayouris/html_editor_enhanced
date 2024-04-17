@@ -117,7 +117,6 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
           }
         },
         child: Container(
-          height: docHeight,
           decoration: widget.otherOptions.decoration,
           child: Column(
             children: [
@@ -176,12 +175,12 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                       print(message.message);
                     },
                     onWindowFocus: (controller) async {
-                      if (widget.htmlEditorOptions.shouldEnsureVisible &&
-                          Scrollable.of(context) != null) {
-                        await Scrollable.of(context)!.position.ensureVisible(
-                              context.findRenderObject()!,
-                            );
-                      }
+                      // if (widget.htmlEditorOptions.shouldEnsureVisible &&
+                      //     Scrollable.of(context) != null) {
+                      //   await Scrollable.of(context)!.position.ensureVisible(
+                      //         context.findRenderObject()!,
+                      //       );
+                      // }
                       if (widget.htmlEditorOptions.adjustHeightForKeyboard &&
                           mounted &&
                           !visibleStream.isClosed) {
@@ -524,13 +523,13 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                         controller.addJavaScriptHandler(
                             handlerName: 'onChangeContent',
                             callback: (contents) {
-                              if (widget
-                                      .htmlEditorOptions.shouldEnsureVisible &&
-                                  Scrollable.of(context) != null) {
-                                Scrollable.of(context)!.position.ensureVisible(
-                                      context.findRenderObject()!,
-                                    );
-                              }
+                              // if (widget
+                              //         .htmlEditorOptions.shouldEnsureVisible &&
+                              //     Scrollable.of(context) != null) {
+                              //   Scrollable.of(context)!.position.ensureVisible(
+                              //         context.findRenderObject()!,
+                              //       );
+                              // }
                               if (widget.callbacks != null &&
                                   widget.callbacks!.onChangeContent != null) {
                                 widget.callbacks!.onChangeContent!
