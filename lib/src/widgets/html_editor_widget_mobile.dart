@@ -541,11 +541,14 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 16,
+              ),
               if (widget.htmlToolbarOptions != null)
                 Container(
                   decoration: ShapeDecoration(
                     color: AppThemeConfig().resptionBack,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       side: BorderSide(width: 1, color: Color(0xFFE8EAEC)),
                     ),
                   ),
