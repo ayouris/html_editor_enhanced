@@ -1,6 +1,7 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:html_editor_enhanced/utils/utils.dart';
 import 'package:nawat_mobile/core/theme/app_theme.dart';
@@ -845,7 +846,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                             onColorChanged: (color) {
                               newColor = color;
                             },
-                            title: Text('Choose a Color',
+                            title: Text('selectColor'.tr,
                                 style: TextStyle(
                                     color: AppThemeConfig().iconPrimary)),
                             width: 40,
@@ -855,15 +856,8 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                             borderRadius: 0,
                             wheelDiameter: 165,
                             enableOpacity: false,
-                            showColorCode: true,
-                            colorCodeHasColor: true,
-                            pickersEnabled: <ColorPickerType, bool>{
-                              ColorPickerType.wheel: true,
-                            },
-                            copyPasteBehavior:
-                                const ColorPickerCopyPasteBehavior(
-                              parseShortHexCode: true,
-                            ),
+                            showColorCode: false,
+                            colorCodeHasColor: false,
                             actionButtons: const ColorPickerActionButtons(
                               dialogActionButtons: true,
                             ),
@@ -873,7 +867,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text('Cancel',
+                              child: Text('cancel'.tr,
                                   style: TextStyle(
                                       color: AppThemeConfig().iconPrimary)),
                             ),
@@ -903,7 +897,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                   }
                                   Navigator.of(context).pop();
                                 },
-                                child: Text('Reset to default color',
+                                child: Text('restColor'.tr,
                                     style: TextStyle(
                                         color: AppThemeConfig().iconPrimary))),
                             TextButton(
@@ -936,7 +930,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                                 });
                                 Navigator.of(context).pop();
                               },
-                              child: Text('Set color',
+                              child: Text('setColor'.tr,
                                   style: TextStyle(
                                       color: AppThemeConfig().iconPrimary)),
                             )
